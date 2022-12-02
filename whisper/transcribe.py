@@ -35,7 +35,8 @@ def transcribe(
     logprob_threshold: Optional[float] = -1.0,
     no_speech_threshold: Optional[float] = 0.6,
     condition_on_previous_text: bool = True,
-    use_streamlit: bool = False,
+    streamlit_status_component=None,
+    streamlit_result_component=None,
     **decode_options,
 ):
     """
@@ -101,12 +102,18 @@ def transcribe(
                 print(
                     "Detecting language using up to the first 30 seconds. Use `--language` to specify the language"
                 )
+                streamlit_status_component.text(
+                    "Detecting language using up to the first 30 seconds"
+                )
             segment = pad_or_trim(mel, N_FRAMES).to(model.device).to(dtype)
             _, probs = model.detect_language(segment)
             decode_options["language"] = max(probs, key=probs.get)
             if verbose is not None:
                 print(
                     f"Detected language: {LANGUAGES[decode_options['language']].title()}"
+                )
+                streamlit_status_component.text(
+                    f"Detected language: {LANGUAGES[decode_options['language']].title()}\nTranscribing audio, this may take a while..."
                 )
 
     language = decode_options["language"]
@@ -193,8 +200,7 @@ def transcribe(
                 f"[{format_timestamp(start)} --> {format_timestamp(end)}] {text}"
             )
             print(formattedStr)
-            st.text(formattedStr)
-            print(f"[{format_timestamp(start)} --> {format_timestamp(end)}] {text}")
+            streamlit_result_component.text(formattedStr)
 
     # show the progress bar when verbose is False (otherwise the transcribed text will be printed)
     num_frames = mel.shape[-1]
