@@ -295,6 +295,9 @@ def transcribe(
             pbar.update(min(num_frames, seek) - previous_seek_value)
             previous_seek_value = seek
 
+    # update streamlit message component
+    streamlit_result_component.text("Transcription complete!")
+
     return dict(
         text=tokenizer.decode(all_tokens[len(initial_prompt) :]),
         segments=all_segments,
