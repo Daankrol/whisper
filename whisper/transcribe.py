@@ -207,7 +207,7 @@ def transcribe(
             # a new line could altready be present in front of it
 
             formattedStr = formattedStr.replace("[", "\n[")
-            print(formattedStr)
+            # print(formattedStr)
 
             streamlit_state.live_result += formattedStr
             print(streamlit_state.live_result)
