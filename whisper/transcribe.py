@@ -210,6 +210,7 @@ def transcribe(
             print(formattedStr)
 
             streamlit_state.live_result += formattedStr
+            print(streamlit_state.live_result)
             streamlit_result_component.markdown(streamlit_state.live_result)
 
     # show the progress bar when verbose is False (otherwise the transcribed text will be printed)
