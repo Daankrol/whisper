@@ -201,7 +201,7 @@ def transcribe(
                 f"[{format_timestamp(start)} --> {format_timestamp(end)}] {text}"
             )
             print(formattedStr)
-            old = streamlit_result_component.text
+            old = streamlit_result_component
             streamlit_result_component.markdown(old + formattedStr)
 
     # show the progress bar when verbose is False (otherwise the transcribed text will be printed)
