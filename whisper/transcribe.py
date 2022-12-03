@@ -24,6 +24,8 @@ from .utils import (
 if TYPE_CHECKING:
     from .model import Whisper
 
+all_text = ""
+
 
 def transcribe(
     model: "Whisper",
@@ -81,7 +83,6 @@ def transcribe(
     A dictionary containing the resulting text ("text") and segment-level details ("segments"), and
     the spoken language ("language"), which is detected when `decode_options["language"]` is None.
     """
-    all_text = ""
     dtype = torch.float16 if decode_options.get("fp16", True) else torch.float32
     if model.device == torch.device("cpu"):
         if torch.cuda.is_available():
@@ -201,8 +202,8 @@ def transcribe(
                 f"[{format_timestamp(start)} --> {format_timestamp(end)}] {text}"
             )
             print(formattedStr)
-            old = streamlit_result_component
-            streamlit_result_component.markdown(old + formattedStr)
+            all_text += formattedStr
+            streamlit_result_component.markdown(formattedStr)
 
     # show the progress bar when verbose is False (otherwise the transcribed text will be printed)
     num_frames = mel.shape[-1]
