@@ -208,9 +208,9 @@ def transcribe(
 
             formattedStr = formattedStr.replace("[", "\n[")
             # print(formattedStr)
-
+            print("new string: ", formattedStr)
             streamlit_state.live_result += formattedStr
-            print(streamlit_state.live_result)
+            # print(streamlit_state.live_result)
             streamlit_result_component.markdown(streamlit_state.live_result)
 
     # show the progress bar when verbose is False (otherwise the transcribed text will be printed)
