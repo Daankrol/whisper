@@ -202,8 +202,13 @@ def transcribe(
             formattedStr = (
                 f"[{format_timestamp(start)} --> {format_timestamp(end)}] {text}"
             )
-            print(formattedStr)
-            streamlit_state.live_result += formattedStr + "\n"
+            # print(formattedStr)
+            # there can be multiple [ in the text, make sure that there is a newline in front of each
+            # a new line could altready be present in front of it
+
+            formattedStr = formattedStr.replace("[", "\n[")
+
+            streamlit_state.live_result += formattedStr
             streamlit_result_component.markdown(streamlit_state.live_result)
 
     # show the progress bar when verbose is False (otherwise the transcribed text will be printed)
