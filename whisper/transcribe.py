@@ -299,7 +299,7 @@ def transcribe(
             previous_seek_value = seek
 
     # update streamlit message component
-    streamlit_result_component.text("Transcription complete!")
+    streamlit_status_component.text("Transcription complete!")
 
     return dict(
         text=tokenizer.decode(all_tokens[len(initial_prompt) :]),
