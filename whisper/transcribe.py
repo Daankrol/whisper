@@ -81,6 +81,7 @@ def transcribe(
     A dictionary containing the resulting text ("text") and segment-level details ("segments"), and
     the spoken language ("language"), which is detected when `decode_options["language"]` is None.
     """
+    all_text = ""
     dtype = torch.float16 if decode_options.get("fp16", True) else torch.float32
     if model.device == torch.device("cpu"):
         if torch.cuda.is_available():
@@ -172,8 +173,6 @@ def transcribe(
         initial_prompt = tokenizer.encode(" " + initial_prompt.strip())
         all_tokens.extend(initial_prompt)
 
-    all_text = ""
-
     def add_segment(
         *, start: float, end: float, text_tokens: torch.Tensor, result: DecodingResult
     ):
@@ -202,8 +201,8 @@ def transcribe(
                 f"[{format_timestamp(start)} --> {format_timestamp(end)}] {text}"
             )
             print(formattedStr)
-            all_text = all_text + formattedStr
-            streamlit_result_component.markdown(all_text)
+            old = streamlit_result_component.text
+            streamlit_result_component.markdown(old + formattedStr)
 
     # show the progress bar when verbose is False (otherwise the transcribed text will be printed)
     num_frames = mel.shape[-1]
