@@ -208,6 +208,7 @@ def transcribe(
 
             formattedStr = formattedStr.replace("[", "\n[")
             # print(formattedStr)
+            print('old text', streamlit_state.live_result)
             print("new string: ", formattedStr)
             streamlit_state.live_result += formattedStr
             # print(streamlit_state.live_result)
