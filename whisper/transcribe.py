@@ -172,6 +172,8 @@ def transcribe(
         initial_prompt = tokenizer.encode(" " + initial_prompt.strip())
         all_tokens.extend(initial_prompt)
 
+    all_text = ""
+
     def add_segment(
         *, start: float, end: float, text_tokens: torch.Tensor, result: DecodingResult
     ):
@@ -200,7 +202,8 @@ def transcribe(
                 f"[{format_timestamp(start)} --> {format_timestamp(end)}] {text}"
             )
             print(formattedStr)
-            streamlit_result_component.text(formattedStr)
+            all_text = all_text + formattedStr
+            streamlit_result_component.markdown(all_text)
 
     # show the progress bar when verbose is False (otherwise the transcribed text will be printed)
     num_frames = mel.shape[-1]
