@@ -202,8 +202,8 @@ def transcribe(
             formattedStr = (
                 f"[{format_timestamp(start)} --> {format_timestamp(end)}] {text}"
             )
-            streamlit_state.live_text = streamlit_state.live_text + formattedStr
-            streamlit_result_component.markdown(formattedStr + '\n')
+            streamlit_state.live_text = streamlit_state.live_text + formattedStr + "\n"
+            streamlit_result_component.markdown(formattedStr)
 
     # show the progress bar when verbose is False (otherwise the transcribed text will be printed)
     num_frames = mel.shape[-1]
